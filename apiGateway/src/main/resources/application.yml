@@ -17,3 +17,10 @@ spring:
         - Method=GET
         filters:
         - RewritePath=/users-ws/(?<segment>.*), /api/$\{segment}
+      - id: users-create
+        uri: lb://users-ws
+        predicates:
+          - Path=/users-ws/user
+          - Method=POST
+        filters:
+          - RewritePath=/users-ws/(?<segment>.*), /api/$\{segment}
