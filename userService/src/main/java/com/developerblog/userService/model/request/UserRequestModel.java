@@ -1,6 +1,4 @@
 package com.developerblog.userService.model.request;
-
-import com.developerblog.userService.constants.ValidationMessage;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -17,6 +15,8 @@ public class UserRequestModel {
     @Size(min = 2,message = SIZE_MIN_MESSAGE)
     private String firstName;
     private String lastName;
+    @NotNull(message = EMAIL_NOT_NULL_MESSAGE)
+    @Size(min = 5,message = SIZE_MIN_MESSAGE)
     private String email;
     private String password;
 }
