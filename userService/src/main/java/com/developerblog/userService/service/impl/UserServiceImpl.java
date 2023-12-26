@@ -9,6 +9,8 @@ import com.developerblog.userService.service.UserService;
 import com.developerblog.userService.utils.MapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +37,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseModel createUser(UserRequestModel requestModel) {
         ModelMapper modelMapper = mapper.initMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         UserEntity userEntity = modelMapper.map(requestModel, UserEntity.class);
         userEntity.setUserId(UUID.randomUUID().toString());
-
+        userEntity.setPassword(requestModel.getPassword());
         try {
             UserEntity savedUserEntity = userRepository.save(userEntity);
             return modelMapper.map(savedUserEntity, UserResponseModel.class);
